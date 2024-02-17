@@ -1,0 +1,17 @@
+package views
+
+import (
+	"github.com/c-ciobanu/eat-a-fruit/models"
+	"github.com/c-ciobanu/eat-a-fruit/views/layouts"
+)
+
+templ Index(fruits []models.Fruit) {
+	@layouts.Base() {
+		<h1>Eat a fruit!</h1>
+		<ul>
+			for _, item := range fruits {
+				<li>{ item.Name }</li>
+			}
+		</ul>
+	}
+}
