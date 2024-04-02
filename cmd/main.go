@@ -1,6 +1,9 @@
 package main
 
 import (
+	"slices"
+	"time"
+
 	"github.com/c-ciobanu/eat-a-fruit/models"
 	"github.com/c-ciobanu/eat-a-fruit/views"
 	"github.com/labstack/echo/v4"
@@ -42,5 +45,14 @@ func main() {
 }
 
 func indexHandler(c echo.Context) error {
-	return views.Index(ukSeasonalFruits).Render(c.Request().Context(), c.Response())
+	month := time.Now().Month()
+
+	var fruitsInSeasonNow []models.Fruit
+	for _, fruit := range ukSeasonalFruits {
+		if slices.Contains(fruit.Months, month.String()) {
+			fruitsInSeasonNow = append(fruitsInSeasonNow, fruit)
+		}
+	}
+
+	return views.Index(fruitsInSeasonNow).Render(c.Request().Context(), c.Response())
 }
