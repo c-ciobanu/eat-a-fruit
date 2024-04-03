@@ -1,7 +1,6 @@
 package main
 
 import (
-	"slices"
 	"time"
 
 	"github.com/c-ciobanu/eat-a-fruit/models"
@@ -14,25 +13,25 @@ import (
 // https://www.oddbox.co.uk/blog/whats-in-season-when-a-guide-to-uk-seasonal-eating
 // https://www.bbcgoodfood.com/seasonal-calendar
 var ukSeasonalFruits = []models.Fruit{
-	{Id: "apple", Name: "Apple", Months: []string{"September", "October", "November", "December", "January", "February"}},
-	{Id: "apricot", Name: "Apricot", Months: []string{"June", "July", "August"}},
-	{Id: "blackberry", Name: "Blackberry", Months: []string{"July", "August", "September", "October"}},
-	{Id: "blackcurrant", Name: "Blackcurrant", Months: []string{"June", "July", "August"}},
-	{Id: "blueberry", Name: "Blueberry", Months: []string{"July"}},
-	{Id: "cherry", Name: "Cherry", Months: []string{"June", "July", "August"}},
-	{Id: "cranberry", Name: "Cranberry", Months: []string{"November", "December"}},
-	{Id: "damson", Name: "Damson", Months: []string{"August", "September"}},
-	{Id: "elderberry", Name: "Elderberry", Months: []string{"October", "November"}},
-	{Id: "gooseberry", Name: "Gooseberry", Months: []string{"June", "July"}},
-	{Id: "greengage", Name: "Greengage", Months: []string{"July", "August"}},
-	{Id: "loganberry", Name: "Loganberry", Months: []string{"July", "August"}},
-	{Id: "pear", Name: "Pear", Months: []string{"September", "October", "November", "December", "January", "February"}},
-	{Id: "plum", Name: "Plum", Months: []string{"August", "September"}},
-	{Id: "quince", Name: "Quince", Months: []string{"October", "November", "December"}},
-	{Id: "raspberry", Name: "Raspberry", Months: []string{"June", "July", "August", "September"}},
-	{Id: "redcurrant", Name: "Redcurrant", Months: []string{"June", "July", "August"}},
-	{Id: "strawberry", Name: "Strawberry", Months: []string{"May", "June", "July", "August", "September"}},
-	{Id: "tayberry", Name: "Tayberry", Months: []string{"June"}},
+	{Id: "apple", Name: "Apple", Months: []time.Month{time.September, time.October, time.November, time.December, time.January, time.February}},
+	{Id: "apricot", Name: "Apricot", Months: []time.Month{time.June, time.July, time.August}},
+	{Id: "blackberry", Name: "Blackberry", Months: []time.Month{time.July, time.August, time.September, time.October}},
+	{Id: "blackcurrant", Name: "Blackcurrant", Months: []time.Month{time.June, time.July, time.August}},
+	{Id: "blueberry", Name: "Blueberry", Months: []time.Month{time.July}},
+	{Id: "cherry", Name: "Cherry", Months: []time.Month{time.June, time.July, time.August}},
+	{Id: "cranberry", Name: "Cranberry", Months: []time.Month{time.November, time.December}},
+	{Id: "damson", Name: "Damson", Months: []time.Month{time.August, time.September}},
+	{Id: "elderberry", Name: "Elderberry", Months: []time.Month{time.October, time.November}},
+	{Id: "gooseberry", Name: "Gooseberry", Months: []time.Month{time.June, time.July}},
+	{Id: "greengage", Name: "Greengage", Months: []time.Month{time.July, time.August}},
+	{Id: "loganberry", Name: "Loganberry", Months: []time.Month{time.July, time.August}},
+	{Id: "pear", Name: "Pear", Months: []time.Month{time.September, time.October, time.November, time.December, time.January, time.February}},
+	{Id: "plum", Name: "Plum", Months: []time.Month{time.August, time.September}},
+	{Id: "quince", Name: "Quince", Months: []time.Month{time.October, time.November, time.December}},
+	{Id: "raspberry", Name: "Raspberry", Months: []time.Month{time.June, time.July, time.August, time.September}},
+	{Id: "redcurrant", Name: "Redcurrant", Months: []time.Month{time.June, time.July, time.August}},
+	{Id: "strawberry", Name: "Strawberry", Months: []time.Month{time.May, time.June, time.July, time.August, time.September}},
+	{Id: "tayberry", Name: "Tayberry", Months: []time.Month{time.June}},
 }
 
 func main() {
@@ -45,12 +44,15 @@ func main() {
 }
 
 func indexHandler(c echo.Context) error {
-	month := time.Now().Month()
+	currentMonth := time.Now().Month()
 
 	var fruitsInSeasonNow []models.Fruit
 	for _, fruit := range ukSeasonalFruits {
-		if slices.Contains(fruit.Months, month.String()) {
-			fruitsInSeasonNow = append(fruitsInSeasonNow, fruit)
+		for _, month := range fruit.Months {
+			if month >= currentMonth-1 && month <= currentMonth+1 {
+				fruitsInSeasonNow = append(fruitsInSeasonNow, fruit)
+				break
+			}
 		}
 	}
 

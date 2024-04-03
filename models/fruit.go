@@ -1,7 +1,9 @@
 package models
 
+import "time"
+
 type Fruit struct {
 	Id     string
 	Name   string
-	Months []string
+	Months []time.Month
 }
