@@ -38,6 +38,8 @@ func main() {
 	e := echo.New()
 	e.Use(middleware.Logger())
 
+	e.Static("/assets", "assets")
+
 	e.GET("/", indexHandler)
 
 	e.Logger.Fatal(e.Start(":4000"))

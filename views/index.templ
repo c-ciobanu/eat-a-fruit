@@ -10,7 +10,9 @@ templ Index(fruits []models.Fruit, ) {
 		<h1>Fruits in season right now</h1>
 		<ul>
 			for _, item := range fruits {
-				<li>{ item.Name }</li>
+				<li>
+					<img src={ item.Img } alt={ item.Name }/>
+				</li>
 			}
 		</ul>
 	}
