@@ -7,13 +7,15 @@ import (
 
 templ Index(fruits []models.Fruit, ) {
 	@layouts.Base() {
-		<h1>Fruits in season right now</h1>
-		<ul>
-			for _, item := range fruits {
-				<li>
-					<img src={ item.Img } alt={ item.Name }/>
-				</li>
-			}
-		</ul>
+		<main class="mx-auto p-4 max-w-3xl">
+			<h1 class="text-center font-medium uppercase mb-2">Fruits in season right now in the UK</h1>
+			<ul class="grid grid-cols-2 gap-4">
+				for _, item := range fruits {
+					<li>
+						<img src={ item.Img } alt={ item.Name } title={ item.Name }/>
+					</li>
+				}
+			</ul>
+		</main>
 	}
 }
